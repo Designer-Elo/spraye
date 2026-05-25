@@ -16,7 +16,8 @@ html, body, #root {
   height: 100%;
   min-height: 100vh;
   min-height: -webkit-fill-available;
-  background-color: #f5f5f5;
+  /* Match app background so the status bar area has no gap */
+  background-color: #F0F0F0;
   font-family: var(--font-geist);
   overflow: hidden;
 }
@@ -52,6 +53,11 @@ html, body, #root {
     border-radius: 0;
     border: none;
     box-shadow: none;
+    /* Push content below Dynamic Island / notch on iPhone PWA */
+    padding-top: env(safe-area-inset-top);
+    /* Respect home indicator at the bottom */
+    padding-bottom: env(safe-area-inset-bottom);
+    box-sizing: border-box;
   }
 }
 
