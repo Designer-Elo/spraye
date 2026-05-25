@@ -400,8 +400,9 @@ export default function App() {
                           onClick={action}
                           style={{ 
                             height: '50px', 
-                            width: '50px', 
-                            borderRadius: '100px' 
+                            width: '124.67px', 
+                            borderRadius: '100px',
+                            padding: '15px 35px'
                           }}
                           className="bg-white flex items-center justify-center active:scale-95 transition-all shadow-sm flex-shrink-0"
                         >
