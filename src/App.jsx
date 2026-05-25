@@ -29,12 +29,12 @@ const RECIPIENT = {
 };
 
 const RECENT_TRANSACTIONS = [
-  { id: 1, name: "Adaeze Obi",   date: "Sep 20, 2025", amount: 500,  balance: 26042.60, status: "Pending" },
-  { id: 2, name: "Adaeze Obi",   date: "Sep 20, 2025", amount: 500,  balance: 26042.60, status: "Completed" },
-  { id: 3, name: "Temi Nwosu",   date: "Sep 19, 2025", amount: 1000, balance: 25542.60, status: "Completed" },
-  { id: 4, name: "Kunle Adeola", date: "Sep 19, 2025", amount: 200,  balance: 24542.60, status: "Completed" },
-  { id: 5, name: "Bimpe Ige",    date: "Sep 18, 2025", amount: 500,  balance: 24342.60, status: "Completed" },
-  { id: 6, name: "Temi Ade",     date: "Sep 18, 2025", amount: 500,  balance: 23842.60, status: "Pending" },
+  { id: 1, name: "Adaeze Obi",   date: "Sep 20, 2025", amount: 500,  balance: 26042.60, status: "Pending", avatar: "/Person 1.png" },
+  { id: 2, name: "Adaeze Obi",   date: "Sep 20, 2025", amount: 500,  balance: 26042.60, status: "Completed", avatar: "/Person 2.png" },
+  { id: 3, name: "Temi Nwosu",   date: "Sep 19, 2025", amount: 1000, balance: 25542.60, status: "Completed", avatar: "/Person 3.png" },
+  { id: 4, name: "Kunle Adeola", date: "Sep 19, 2025", amount: 200,  balance: 24542.60, status: "Completed", avatar: "/Person 4.png" },
+  { id: 5, name: "Bimpe Ige",    date: "Sep 18, 2025", amount: 500,  balance: 24342.60, status: "Completed", avatar: "/Person 1.png" },
+  { id: 6, name: "Temi Ade",     date: "Sep 18, 2025", amount: 500,  balance: 23842.60, status: "Pending", avatar: "/Person 2.png" },
 ];
 
 const CONTACTS = [
@@ -487,7 +487,7 @@ export default function App() {
                       />
                       
                       {/* Left content */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[58%] p-4 flex flex-col justify-between z-20">
+                      <div className="absolute left-0 top-0 bottom-0 w-[58%] py-4 pr-4 pl-[24px] flex flex-col justify-between z-20">
                         <div>
                           <h3 className="text-[18px] font-bold text-white leading-tight">{RECIPIENT.name}</h3>
                           <p className="text-[11px] text-[#BDEBBF] mt-0.5">Upcoming Birthday event</p>
@@ -579,7 +579,11 @@ export default function App() {
                             style={{ width: '42px', height: '42px' }}
                             className="rounded-full bg-gradient-to-br from-neutral-300 to-neutral-400 flex items-center justify-center flex-shrink-0 relative"
                           >
-                            <span className="text-[11px] font-bold text-white">{tx.name.split(' ').map(n => n[0]).join('')}</span>
+                            {tx.avatar ? (
+                              <img src={tx.avatar} alt={tx.name} className="w-full h-full rounded-full object-cover" />
+                            ) : (
+                              <span className="text-[11px] font-bold text-white">{tx.name.split(' ').map(n => n[0]).join('')}</span>
+                            )}
                             <div 
                               style={{ 
                                 width: '20px', 
@@ -657,8 +661,8 @@ export default function App() {
               </div>{/* end scrollable */}
 
               {/* ── Bottom Navigation Pill ── */}
-              <div className="absolute bottom-6 left-[15px] right-[15px] z-40">
-                <div className="bg-[#181818] rounded-full flex items-center justify-between px-3 py-2.5 shadow-2xl">
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 w-[300px]">
+                <div className="bg-[#181818] rounded-full flex items-center justify-between px-3 py-2.5 shadow-2xl w-full">
                   {/* Home (active) */}
                   <button className="flex items-center space-x-2 bg-[#2C2C2C] rounded-full px-3.5 py-2 active:scale-95 transition-transform">
                     <User size={16} className="text-white" />
