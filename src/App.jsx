@@ -329,7 +329,7 @@ export default function App() {
               <div className="flex-1 overflow-y-auto no-scrollbar pb-28">
 
                 {/* Currency selector pill */}
-                <div className="flex justify-center pb-1">
+                <div className="flex justify-center pb-[22px]">
                   <button 
                     style={{
                       width: '105px',
@@ -351,12 +351,24 @@ export default function App() {
                   </button>
                 </div>
 
-                {/* Balance */}
-                <div className="text-center py-2 px-[15px]">
-                  <p className="text-[12px] text-[#808180] font-normal mb-1">Spray balance</p>
-                  <div className="flex justify-center items-center gap-1">
-                    <span style={{ fontFamily: 'var(--font-inter)', fontSize: '26px', color: '#BFBFBF', lineHeight: 1, fontWeight: 400 }}>₦</span>
-                    <span style={{ fontFamily: 'var(--font-geist)', fontSize: '40px', fontWeight: 600, color: '#000', letterSpacing: '-1.5px', lineHeight: 1 }}>
+                {/* Balance Grouping - Spacing: 0px (minimal/no extra margins on child elements) */}
+                <div className="text-center px-[15px] pb-[25px] flex flex-col items-center justify-center" style={{ gap: '0px' }}>
+                  <p 
+                    style={{
+                      fontFamily: 'var(--font-geist)',
+                      fontWeight: 400,
+                      fontSize: '12px',
+                      lineHeight: '100%',
+                      color: '#868686',
+                      margin: 0,
+                      padding: 0
+                    }}
+                  >
+                    Spray balance
+                  </p>
+                  <div className="flex justify-center items-center gap-1 mt-[2px]">
+                    <span style={{ fontFamily: 'var(--font-inter)', fontSize: '26px', color: '#BFBFBF', lineHeight: '100%', fontWeight: 400 }}>₦</span>
+                    <span style={{ fontFamily: 'var(--font-geist)', fontSize: '40px', fontWeight: 600, color: '#000', letterSpacing: '-1.5px', lineHeight: '100%' }}>
                       {isBalanceVisible
                         ? walletBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                         : '••••••'}
@@ -368,7 +380,7 @@ export default function App() {
                 </div>
 
                 {/* ── Action buttons ── */}
-                <div className="px-[15px] pt-3 pb-4">
+                <div className="px-[15px] pb-[25px]">
                   <div 
                     className="w-full bg-[#E4E4E4] flex items-center justify-between gap-[8px]" 
                     style={{ 
@@ -395,14 +407,25 @@ export default function App() {
                         >
                           {icon}
                         </button>
-                        <span className="text-[10px] font-semibold text-[#474747]">{label}</span>
+                        <span 
+                          style={{
+                            fontFamily: 'var(--font-geist)',
+                            fontWeight: 700,
+                            fontSize: '12px',
+                            lineHeight: '100%',
+                            textAlign: 'center',
+                            color: '#474747'
+                          }}
+                        >
+                          {label}
+                        </span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* ── Banner — 3 stacked rectangles (111px height, 30px rounded) ── */}
-                <div className="px-[15px] pb-5">
+                <div className="px-[15px] pb-[35px]">
                   <div className="relative" style={{ height: '119px' }}>
                     {/* Back rect (10% opacity) */}
                     <div 
@@ -491,7 +514,10 @@ export default function App() {
                           background: '#F0F0F0',
                           paddingLeft: '34px',
                           paddingRight: '12px',
-                          fontSize: '12px'
+                          fontFamily: 'var(--font-geist)',
+                          fontWeight: 400,
+                          fontSize: '14px',
+                          lineHeight: '24px'
                         }}
                         className="w-full text-black placeholder-[#868686] focus:outline-none"
                       />
