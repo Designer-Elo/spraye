@@ -3,7 +3,8 @@ import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { 
   Bell, Eye, EyeOff, Search, SlidersHorizontal, QrCode, 
   Scan, ArrowLeft, ChevronRight, Check, X, Plus, 
-  Gift, User, ArrowUp, RefreshCw, LogOut, Info
+  Gift, User, ArrowUp, RefreshCw, LogOut, Info,
+  ChevronDown, BarChart2
 } from 'lucide-react';
 import nairaIllustration from './assets/naira_spray_illustration.png';
 
@@ -28,9 +29,12 @@ const RECIPIENT = {
 };
 
 const RECENT_TRANSACTIONS = [
-  { id: 1, name: "Adaeze Obi", date: "Sep 20, 2025", amount: 500, status: "Pending" },
-  { id: 2, name: "Adaeze Obi", date: "Sep 20, 2025", amount: 500, status: "Completed" },
-  { id: 3, name: "Adaeze Obi", date: "Sep 20, 2025", amount: 500, status: "Loading" }
+  { id: 1, name: "Adaeze Obi",   date: "Sep 20, 2025", amount: 500,  balance: 26042.60, status: "Pending" },
+  { id: 2, name: "Adaeze Obi",   date: "Sep 20, 2025", amount: 500,  balance: 26042.60, status: "Completed" },
+  { id: 3, name: "Temi Nwosu",   date: "Sep 19, 2025", amount: 1000, balance: 25542.60, status: "Completed" },
+  { id: 4, name: "Kunle Adeola", date: "Sep 19, 2025", amount: 200,  balance: 24542.60, status: "Completed" },
+  { id: 5, name: "Bimpe Ige",    date: "Sep 18, 2025", amount: 500,  balance: 24342.60, status: "Completed" },
+  { id: 6, name: "Temi Ade",     date: "Sep 18, 2025", amount: 500,  balance: 23842.60, status: "Pending" },
 ];
 
 const CONTACTS = [
@@ -296,218 +300,196 @@ export default function App() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="flex-1 flex flex-col h-full bg-[#F0F0F0]"
             >
-              {renderStatusBar(false)}
+              {/* Safe-area top padding — no simulated status bar, iOS provides it */}
+              <div style={{ paddingTop: 'max(54px, env(safe-area-inset-top))' }} />
 
-              {/* Top Row Header */}
-              <div className="flex justify-between items-center px-6 pt-4 pb-2">
+              {/* ── Header ── */}
+              <div className="flex justify-between items-center px-[15px] pb-3">
                 <div className="flex items-center space-x-3">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#1A3A1B] to-[#23BC29] flex items-center justify-center text-white font-bold border border-white shadow-md text-sm">
+                  <div className="w-11 h-11 rounded-full overflow-hidden bg-gradient-to-tr from-[#1A3A1B] to-[#23BC29] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                     EL
                   </div>
                   <div>
-                    <h2 className="text-[18px] leading-[22px] font-bold text-[#000000]">{LOGGED_IN_USER.greeting}</h2>
-                    <p className="text-[12px] leading-[16px] font-medium text-[#808180]">{LOGGED_IN_USER.subtext}</p>
+                    <h2 className="text-[17px] leading-[22px] font-bold text-black">{LOGGED_IN_USER.greeting}</h2>
+                    <p className="text-[12px] leading-[16px] font-medium text-[#808180]">Who dey celebrate?</p>
                   </div>
                 </div>
-                <div className="relative cursor-pointer hover:scale-105 active:scale-95 transition-transform">
+                {/* Bell with numeric badge */}
+                <div className="relative cursor-pointer active:scale-95 transition-transform">
                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-[#E4E4E4] shadow-sm">
-                    <Bell size={18} className="text-[#000000]" />
+                    <Bell size={18} className="text-black" />
                   </div>
-                  <div className="w-2.5 h-2.5 bg-[#C11A00] rounded-full absolute top-0.5 right-0.5 border-2 border-white"></div>
+                  <div className="absolute -top-1 -right-1 w-[18px] h-[18px] bg-[#C11A00] rounded-full border-2 border-[#F0F0F0] flex items-center justify-center">
+                    <span className="text-[9px] font-bold text-white leading-none">3</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Main Content Area Scrollable */}
-              <div className="flex-1 overflow-y-auto no-scrollbar px-6 pb-24 space-y-6">
-                
-                {/* Balance Area */}
-                <div className="text-center pt-2 space-y-1">
-                  <div className="inline-flex items-center space-x-1.5 bg-[#E4E4E4]/50 px-3 py-1 rounded-full border border-[#DEDEDE]">
-                    <span className="text-[10px] tracking-[0.08em] uppercase font-bold text-[#474747] font-geist">Spray Balance</span>
-                    <span className="text-[10px] text-[#227529] font-bold">🇳🇬 NGN ▾</span>
-                  </div>
-                  
-                  <div className="flex justify-center items-center space-x-3">
-                    <span className="text-[34px] font-bold tracking-[-1.5px] text-[#000000] flex items-center">
-                      <span className="naira mr-1">₦</span>
-                      {isBalanceVisible ? walletBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '••••••'}
+              {/* ── Scrollable content ── */}
+              <div className="flex-1 overflow-y-auto no-scrollbar pb-28">
+
+                {/* Currency selector pill */}
+                <div className="flex justify-center pb-1">
+                  <button className="flex items-center space-x-1.5 bg-white rounded-full px-4 py-1.5 border border-[#E4E4E4] shadow-sm active:scale-95 transition-transform">
+                    <span className="text-[15px]">🇳🇬</span>
+                    <span className="text-[13px] font-semibold text-black">NGN</span>
+                    <ChevronDown size={12} className="text-[#808180]" />
+                  </button>
+                </div>
+
+                {/* Balance */}
+                <div className="text-center py-2 px-[15px]">
+                  <p className="text-[12px] text-[#808180] font-normal mb-1">Spray balance</p>
+                  <div className="flex justify-center items-center gap-1">
+                    <span style={{ fontFamily: 'var(--font-inter)', fontSize: '26px', color: '#BFBFBF', lineHeight: 1, fontWeight: 400 }}>₦</span>
+                    <span style={{ fontFamily: 'var(--font-geist)', fontSize: '40px', fontWeight: 600, color: '#000', letterSpacing: '-1.5px', lineHeight: 1 }}>
+                      {isBalanceVisible
+                        ? walletBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                        : '••••••'}
                     </span>
-                    <button 
-                      onClick={() => setIsBalanceVisible(!isBalanceVisible)} 
-                      className="text-[#808180] hover:text-[#000000] transition-colors p-1.5 bg-white rounded-full border border-[#E4E4E4] shadow-sm"
-                    >
-                      {isBalanceVisible ? <EyeOff size={16} /> : <Eye size={16} />}
+                    <button onClick={() => setIsBalanceVisible(!isBalanceVisible)} className="text-[#808180] ml-1">
+                      {isBalanceVisible ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
                 </div>
 
-                {/* Quick Actions Row */}
-                <div className="grid grid-cols-3 gap-3">
-                  <button 
-                    onClick={() => triggerToast("Top-up method: Bank Transfer or Card details")} 
-                    className="bg-white hover:bg-neutral-50 active:scale-95 transition-all text-black py-2.5 rounded-full border border-[#E4E4E4] font-bold text-xs flex items-center justify-center space-x-1 shadow-sm"
-                  >
-                    <Plus size={14} className="text-[#1D8F21]" />
-                    <span>Top Up</span>
-                  </button>
-                  <button 
-                    onClick={() => triggerToast("My QR Code loaded in background")}
-                    className="bg-white hover:bg-neutral-50 active:scale-95 transition-all text-black py-2.5 rounded-full border border-[#E4E4E4] font-bold text-xs flex items-center justify-center space-x-1 shadow-sm"
-                  >
-                    <QrCode size={14} className="text-[#1D8F21]" />
-                    <span>My QR</span>
-                  </button>
-                  <button 
-                    onClick={() => navigateTo('spray_someone')} 
-                    className="bg-white hover:bg-neutral-50 active:scale-95 transition-all text-black py-2.5 rounded-full border border-[#E4E4E4] font-bold text-xs flex items-center justify-center space-x-1 shadow-sm"
-                  >
-                    <Scan size={14} className="text-[#1D8F21]" />
-                    <span>Scan</span>
-                  </button>
+                {/* ── Action buttons (50px height each) ── */}
+                <div className="grid grid-cols-3 gap-3 px-[15px] pt-3 pb-4">
+                  {[
+                    { label: 'Top Up',  icon: <Plus size={20} />,   action: () => triggerToast('Top-up: Bank Transfer or Card') },
+                    { label: 'My QR',   icon: <QrCode size={20} />, action: () => triggerToast('My QR Code') },
+                    { label: 'Scan',    icon: <Scan size={20} />,   action: () => navigateTo('spray_someone') },
+                  ].map(({ label, icon, action }) => (
+                    <button
+                      key={label}
+                      onClick={action}
+                      style={{ height: '50px' }}
+                      className="bg-white rounded-2xl border border-[#E4E4E4] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-[3px]"
+                    >
+                      <span className="text-black">{icon}</span>
+                      <span className="text-[10px] font-medium text-[#474747]">{label}</span>
+                    </button>
+                  ))}
                 </div>
 
-                {/* Occasion Card */}
-                <div className="bg-[#1A3A1B] rounded-[24px] overflow-hidden p-6 relative shadow-lg text-white flex flex-col justify-between h-[210px] border border-white/5">
-                  <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-70 overflow-hidden rounded-r-[24px]">
-                    <img 
-                      src={nairaIllustration} 
-                      alt="Naira Spraying Graphic" 
-                      className="object-cover h-full w-full object-center transform scale-110"
-                    />
+                {/* ── Banner — 3 stacked rectangles ── */}
+                <div className="px-[15px] pb-5">
+                  <div className="relative" style={{ paddingBottom: '12px' }}>
+                    {/* Back rect */}
+                    <div style={{ position:'absolute', bottom:0, left:'16px', right:'16px', top:'12px', background:'#1A3A1B', opacity:0.35, borderRadius:'20px' }} />
+                    {/* Mid rect */}
+                    <div style={{ position:'absolute', bottom:'4px', left:'8px', right:'8px', top:'6px', background:'#1A3A1B', opacity:0.6, borderRadius:'22px' }} />
+                    {/* Main card */}
+                    <div className="relative z-10 bg-[#1A3A1B] rounded-[24px] overflow-hidden" style={{ height: '155px' }}>
+                      {/* Illustration placeholder right side */}
+                      <div className="absolute right-0 top-0 bottom-0 w-[48%] flex items-center justify-center bg-[#2D5A2D]">
+                        <div className="text-center opacity-30">
+                          <div className="w-16 h-10 bg-[#23BC29] rounded mx-auto mb-1" />
+                          <div className="text-white text-[9px]">[ illustration ]</div>
+                        </div>
+                      </div>
+                      {/* Left content */}
+                      <div className="absolute left-0 top-0 bottom-0 w-[56%] p-5 flex flex-col justify-between">
+                        <div>
+                          <h3 className="text-[20px] font-bold text-white leading-tight">{RECIPIENT.name}</h3>
+                          <p className="text-[12px] text-[#BDEBBF] mt-0.5">Upcoming Birthday event</p>
+                        </div>
+                        <button
+                          onClick={() => navigateTo('spray_someone')}
+                          className="bg-[#23BC29] text-black font-bold text-[13px] py-[7px] px-5 rounded-full self-start active:scale-95 transition-transform"
+                        >
+                          Spray Temi
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  
-                  <div className="relative z-10 space-y-1.5 max-w-[60%]">
-                    <span className="bg-[#23BC29] text-black font-extrabold text-[9px] uppercase px-2 py-0.5 rounded-full tracking-wider">
-                      LIVE EVENT
-                    </span>
-                    <h3 className="text-xl font-bold leading-tight text-white">{RECIPIENT.name}</h3>
-                    <p className="text-xs text-neutral-300 font-medium">{RECIPIENT.event}</p>
-                    <p className="text-[10px] text-[#BDEBBF] font-semibold flex items-center">
-                      <span className="w-1.5 h-1.5 bg-[#23BC29] rounded-full mr-1.5 live-dot-pulse"></span>
-                      Eko Hotel · Lagos, NG
-                    </p>
-                  </div>
-                  
-                  <div className="relative z-10 pt-2">
-                    <button 
-                      onClick={() => navigateTo('spray_someone')}
-                      className="bg-[#23BC29] hover:bg-[#1D8F21] active:scale-95 transition-all text-black font-extrabold text-[13px] py-2.5 px-6 rounded-full shadow-md flex items-center space-x-1"
-                    >
-                      <span>Spray Temi</span>
-                      <ArrowUp size={14} className="transform rotate-45" />
+                </div>
+
+                {/* ── Recent Activity card ── */}
+                <div className="mx-[15px] bg-white rounded-3xl p-4 border border-[#E4E4E4] shadow-sm">
+                  <h4 className="text-[16px] font-bold text-black mb-3">Recent activity</h4>
+
+                  {/* Search + Filter — split */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex-1 relative">
+                      <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#868686]" />
+                      <input
+                        type="text"
+                        placeholder="Search Transactions"
+                        className="w-full bg-[#F5F5F5] rounded-full py-2 pl-8 pr-3 text-[12px] placeholder-[#868686] text-black focus:outline-none"
+                      />
+                    </div>
+                    <button className="w-[36px] h-[36px] bg-[#F5F5F5] rounded-full flex items-center justify-center flex-shrink-0 border border-[#EBEBEB]">
+                      <SlidersHorizontal size={14} className="text-[#474747]" />
                     </button>
                   </div>
-                </div>
 
-                {/* Recent Activity Card */}
-                <div className="bg-white rounded-3xl p-5 border border-[#E4E4E4] shadow-sm space-y-4">
-                  <div className="flex justify-between items-center">
-                    <h4 className="text-sm font-bold text-black uppercase tracking-wider">Recent Activity</h4>
-                    <span className="text-xs text-[#808180] font-semibold">Today</span>
-                  </div>
+                  {/* Today label */}
+                  <p className="text-[11px] text-[#808180] font-medium mb-2">Today</p>
 
-                  {/* Search bar inside activity */}
-                  <div className="relative">
-                    <input 
-                      type="text" 
-                      placeholder="Search transactions..."
-                      className="w-full bg-[#F0F0F0] border-none rounded-2xl py-2.5 pl-10 pr-10 text-xs font-semibold placeholder-[#868686] text-black focus:outline-none focus:ring-1 focus:ring-[#1A3A1B]"
-                    />
-                    <Search size={14} className="absolute left-3.5 top-3.5 text-[#868686]" />
-                    <SlidersHorizontal size={14} className="absolute right-3.5 top-3.5 text-[#868686]" />
-                  </div>
-
-                  {/* Transaction List */}
-                  <div className="space-y-3.5 pt-1">
+                  {/* Transaction rows */}
+                  <div className="space-y-[14px]">
                     {RECENT_TRANSACTIONS.map((tx) => (
-                      <div key={tx.id} className="flex justify-between items-center py-1">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center font-bold text-neutral-600 text-xs shadow-inner">
-                            {tx.name.split(' ').map(n=>n[0]).join('')}
+                      <div key={tx.id} className="flex items-center justify-between">
+                        {/* Left — avatar + name/date */}
+                        <div className="flex items-center space-x-2.5">
+                          <div className="w-[40px] h-[40px] rounded-full bg-gradient-to-br from-neutral-300 to-neutral-400 flex items-center justify-center flex-shrink-0 relative">
+                            <span className="text-[11px] font-bold text-white">{tx.name.split(' ').map(n => n[0]).join('')}</span>
+                            <div className="absolute -bottom-0.5 -right-0.5 w-[14px] h-[14px] bg-[#23BC29] rounded-full border border-white flex items-center justify-center">
+                              <ArrowUp size={7} className="text-white" />
+                            </div>
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-black">{tx.name}</p>
-                            <p className="text-[10px] font-semibold text-[#808180]">{tx.date}</p>
+                            <p className="text-[13px] font-semibold text-black leading-[17px]">{tx.name}</p>
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <p className="text-[11px] text-[#808180]">{tx.date}</p>
+                              {tx.status === 'Pending' && (
+                                <span className="text-[10px] font-medium text-[#E8605A] bg-[#FFE8E7] px-1.5 py-0.5 rounded-full">Pending</span>
+                              )}
+                              {tx.status === 'Completed' && (
+                                <span className="text-[10px] font-medium text-[#1D8F21] bg-[#E1F5DD] px-1.5 py-0.5 rounded-full">Completed</span>
+                              )}
+                            </div>
                           </div>
                         </div>
-
-                        <div className="flex items-center space-x-3.5">
-                          {tx.status === 'Pending' && (
-                            <span className="text-[9px] font-bold text-white bg-[#C11A00] px-2 py-0.5 rounded-full uppercase tracking-wider">
-                              Pending
-                            </span>
-                          )}
-                          {tx.status === 'Completed' && (
-                            <span className="text-[9px] font-bold text-white bg-[#1D8F21] px-2 py-0.5 rounded-full uppercase tracking-wider">
-                              Completed
-                            </span>
-                          )}
-                          {tx.status === 'Loading' && (
-                            <div className="flex items-center space-x-1">
-                              <RefreshCw size={10} className="text-amber-500 animate-spin" />
-                              <span className="text-[9px] font-bold text-amber-500 uppercase">Processing</span>
-                            </div>
-                          )}
-                          <span className="text-xs font-bold text-black flex items-center">
-                            +<span className="naira text-[10px] ml-0.5 mr-0.5">₦</span>{tx.amount.toLocaleString()}
-                          </span>
+                        {/* Right — amount + balance */}
+                        <div className="text-right">
+                          <p className="text-[13px] font-bold text-black">+<span className="naira">₦</span>{tx.amount.toLocaleString()}.00</p>
+                          <p className="text-[11px] text-[#808180]"><span className="naira">₦</span>{tx.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-              </div>
+              </div>{/* end scrollable */}
 
-              {/* Bottom Nav Floating Pill */}
-              <div className="absolute bottom-6 left-6 right-6 z-40">
-                <div className="bg-[#181818] rounded-full px-6 py-3 flex justify-between items-center shadow-2xl border border-white/5">
-                  
-                  {/* Home */}
-                  <button className="flex flex-col items-center justify-center space-y-1 text-white relative">
-                    <div className="w-6 h-6 flex items-center justify-center">
-                      <Gift size={20} className="text-[#23BC29]" />
-                    </div>
-                    <span className="text-[8px] font-extrabold uppercase tracking-widest text-[#23BC29]">Home</span>
-                    <div className="w-1.5 h-1.5 bg-white rounded-full absolute -bottom-2"></div>
+              {/* ── Bottom Navigation Pill ── */}
+              <div className="absolute bottom-6 left-[15px] right-[15px] z-40">
+                <div className="bg-[#181818] rounded-full flex items-center justify-between px-3 py-2.5 shadow-2xl">
+                  {/* Home (active) */}
+                  <button className="flex items-center space-x-2 bg-[#2C2C2C] rounded-full px-3.5 py-2 active:scale-95 transition-transform">
+                    <User size={16} className="text-white" />
+                    <span className="text-white text-[13px] font-semibold">Home</span>
                   </button>
-
-                  {/* Occasions / Gift */}
-                  <button onClick={() => triggerToast("Occasions list")} className="flex flex-col items-center justify-center space-y-1 text-gray-400 hover:text-white">
-                    <div className="w-6 h-6 flex items-center justify-center">
-                      <Gift size={20} />
-                    </div>
-                    <span className="text-[8px] font-extrabold uppercase tracking-widest">Events</span>
+                  {/* Gift */}
+                  <button onClick={() => triggerToast('Occasions')} className="w-10 h-10 rounded-full bg-[#2C2C2C] flex items-center justify-center active:scale-95 transition-transform">
+                    <Gift size={18} className="text-[#808180]" />
                   </button>
-
-                  {/* Elevated Center Arrow Nav */}
-                  <button 
+                  {/* Stats */}
+                  <button onClick={() => triggerToast('Stats')} className="w-10 h-10 rounded-full bg-[#2C2C2C] flex items-center justify-center active:scale-95 transition-transform">
+                    <BarChart2 size={18} className="text-[#808180]" />
+                  </button>
+                  {/* FAB */}
+                  <button
                     onClick={() => navigateTo('spray_someone')}
-                    className="w-14 h-14 bg-[#23BC29] hover:bg-[#1D8F21] rounded-full flex items-center justify-center shadow-lg -translate-y-4 border-4 border-[#181818] active:scale-95 transition-transform"
+                    className="w-12 h-12 bg-[#23BC29] rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform"
                   >
-                    <ArrowUp size={22} className="text-black font-extrabold" />
+                    <ArrowUp size={20} className="text-black" strokeWidth={2.5} />
                   </button>
-
-                  {/* Search */}
-                  <button onClick={() => navigateTo('spray_someone')} className="flex flex-col items-center justify-center space-y-1 text-gray-400 hover:text-white">
-                    <div className="w-6 h-6 flex items-center justify-center">
-                      <Search size={20} />
-                    </div>
-                    <span className="text-[8px] font-extrabold uppercase tracking-widest">Search</span>
-                  </button>
-
-                  {/* Profile */}
-                  <button onClick={() => triggerToast("Profile Settings")} className="flex flex-col items-center justify-center space-y-1 text-gray-400 hover:text-white">
-                    <div className="w-6 h-6 flex items-center justify-center">
-                      <User size={20} />
-                    </div>
-                    <span className="text-[8px] font-extrabold uppercase tracking-widest">Profile</span>
-                  </button>
-
                 </div>
               </div>
 
-              {renderHomeIndicator(false)}
             </motion.div>
           )}
 
