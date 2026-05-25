@@ -51,10 +51,14 @@ html, body {
 
 @media (max-width: 480px) {
   .app-container {
-    width: 100%;
-    max-width: 100%;
-    /* Fill the full dynamic viewport — no floating gap at bottom */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
     height: 100dvh;
+    max-width: 100%;
     max-height: 100dvh;
     border-radius: 0;
     border: none;

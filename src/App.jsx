@@ -330,7 +330,21 @@ export default function App() {
 
                 {/* Currency selector pill */}
                 <div className="flex justify-center pb-1">
-                  <button className="flex items-center space-x-1.5 bg-white rounded-full px-4 py-1.5 border border-[#E4E4E4] shadow-sm active:scale-95 transition-transform">
+                  <button 
+                    style={{
+                      width: '105px',
+                      height: '37px',
+                      borderRadius: '100px',
+                      gap: '5px',
+                      padding: '6px 10px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: '#FFF',
+                      border: '1px solid #E4E4E4'
+                    }}
+                    className="shadow-sm active:scale-95 transition-transform"
+                  >
                     <span className="text-[15px]">🇳🇬</span>
                     <span className="text-[13px] font-semibold text-black">NGN</span>
                     <ChevronDown size={12} className="text-[#808180]" />
@@ -353,50 +367,96 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* ── Action buttons (50px height each) ── */}
-                <div className="grid grid-cols-3 gap-3 px-[15px] pt-3 pb-4">
-                  {[
-                    { label: 'Top Up',  icon: <Plus size={20} />,   action: () => triggerToast('Top-up: Bank Transfer or Card') },
-                    { label: 'My QR',   icon: <QrCode size={20} />, action: () => triggerToast('My QR Code') },
-                    { label: 'Scan',    icon: <Scan size={20} />,   action: () => navigateTo('spray_someone') },
-                  ].map(({ label, icon, action }) => (
-                    <button
-                      key={label}
-                      onClick={action}
-                      style={{ height: '50px' }}
-                      className="bg-white rounded-2xl border border-[#E4E4E4] shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-[3px]"
-                    >
-                      <span className="text-black">{icon}</span>
-                      <span className="text-[10px] font-medium text-[#474747]">{label}</span>
-                    </button>
-                  ))}
+                {/* ── Action buttons ── */}
+                <div className="px-[15px] pt-3 pb-4">
+                  <div 
+                    className="w-full bg-[#E4E4E4] flex items-center justify-between gap-[8px]" 
+                    style={{ 
+                      height: '94px', 
+                      borderRadius: '30px', 
+                      padding: '10px',
+                      opacity: 1 
+                    }}
+                  >
+                    {[
+                      { label: 'Top Up',  icon: <Plus size={22} className="text-[#1D8F21]" />,   action: () => triggerToast('Top-up: Bank Transfer or Card') },
+                      { label: 'My QR',   icon: <QrCode size={20} className="text-[#1D8F21]" />, action: () => triggerToast('My QR Code') },
+                      { label: 'Scan',    icon: <Scan size={20} className="text-[#1D8F21]" />,   action: () => navigateTo('spray_someone') },
+                    ].map(({ label, icon, action }) => (
+                      <div key={label} className="flex-1 flex flex-col items-center gap-[4px] justify-center">
+                        <button
+                          onClick={action}
+                          style={{ 
+                            height: '50px', 
+                            width: '50px', 
+                            borderRadius: '100px' 
+                          }}
+                          className="bg-white flex items-center justify-center active:scale-95 transition-all shadow-sm flex-shrink-0"
+                        >
+                          {icon}
+                        </button>
+                        <span className="text-[10px] font-semibold text-[#474747]">{label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                {/* ── Banner — 3 stacked rectangles ── */}
+                {/* ── Banner — 3 stacked rectangles (111px height, 30px rounded) ── */}
                 <div className="px-[15px] pb-5">
-                  <div className="relative" style={{ paddingBottom: '12px' }}>
-                    {/* Back rect */}
-                    <div style={{ position:'absolute', bottom:0, left:'16px', right:'16px', top:'12px', background:'#1A3A1B', opacity:0.35, borderRadius:'20px' }} />
-                    {/* Mid rect */}
-                    <div style={{ position:'absolute', bottom:'4px', left:'8px', right:'8px', top:'6px', background:'#1A3A1B', opacity:0.6, borderRadius:'22px' }} />
-                    {/* Main card */}
-                    <div className="relative z-10 bg-[#1A3A1B] rounded-[24px] overflow-hidden" style={{ height: '155px' }}>
+                  <div className="relative" style={{ height: '119px' }}>
+                    {/* Back rect (10% opacity) */}
+                    <div 
+                      style={{ 
+                        position: 'absolute', 
+                        bottom: '0px', 
+                        left: '16px', 
+                        right: '16px', 
+                        height: '111px', 
+                        background: '#1A3A1B', 
+                        opacity: 0.1, 
+                        borderRadius: '30px', 
+                        zIndex: 1 
+                      }} 
+                    />
+                    {/* Mid rect (20% opacity) */}
+                    <div 
+                      style={{ 
+                        position: 'absolute', 
+                        bottom: '4px', 
+                        left: '8px', 
+                        right: '8px', 
+                        height: '111px', 
+                        background: '#1A3A1B', 
+                        opacity: 0.2, 
+                        borderRadius: '30px', 
+                        zIndex: 2 
+                      }} 
+                    />
+                    {/* Main card (100% opacity) */}
+                    <div 
+                      className="absolute top-0 left-0 right-0 bg-[#1A3A1B] overflow-hidden" 
+                      style={{ 
+                        height: '111px', 
+                        borderRadius: '30px', 
+                        zIndex: 3 
+                      }}
+                    >
                       {/* Illustration placeholder right side */}
-                      <div className="absolute right-0 top-0 bottom-0 w-[48%] flex items-center justify-center bg-[#2D5A2D]">
+                      <div className="absolute right-0 top-0 bottom-0 w-[42%] flex items-center justify-center bg-[#2D5A2D]">
                         <div className="text-center opacity-30">
-                          <div className="w-16 h-10 bg-[#23BC29] rounded mx-auto mb-1" />
+                          <div className="w-14 h-8 bg-[#23BC29] rounded mx-auto mb-1" />
                           <div className="text-white text-[9px]">[ illustration ]</div>
                         </div>
                       </div>
                       {/* Left content */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[56%] p-5 flex flex-col justify-between">
+                      <div className="absolute left-0 top-0 bottom-0 w-[58%] p-4 flex flex-col justify-between">
                         <div>
-                          <h3 className="text-[20px] font-bold text-white leading-tight">{RECIPIENT.name}</h3>
-                          <p className="text-[12px] text-[#BDEBBF] mt-0.5">Upcoming Birthday event</p>
+                          <h3 className="text-[18px] font-bold text-white leading-tight">{RECIPIENT.name}</h3>
+                          <p className="text-[11px] text-[#BDEBBF] mt-0.5">Upcoming Birthday event</p>
                         </div>
                         <button
                           onClick={() => navigateTo('spray_someone')}
-                          className="bg-[#23BC29] text-black font-bold text-[13px] py-[7px] px-5 rounded-full self-start active:scale-95 transition-transform"
+                          className="bg-[#23BC29] text-black font-bold text-[12px] py-[6px] px-4 rounded-full self-start active:scale-95 transition-transform"
                         >
                           Spray Temi
                         </button>
@@ -406,43 +466,106 @@ export default function App() {
                 </div>
 
                 {/* ── Recent Activity card ── */}
-                <div className="mx-[15px] bg-white rounded-3xl p-4 border border-[#E4E4E4] shadow-sm">
-                  <h4 className="text-[16px] font-bold text-black mb-3">Recent activity</h4>
+                <div 
+                  className="mx-[15px] bg-white border border-[#E4E4E4] shadow-sm flex flex-col"
+                  style={{
+                    height: '514px',
+                    borderRadius: '20px',
+                    padding: '15px 15px 10px 15px',
+                    gap: '10px',
+                    opacity: 1
+                  }}
+                >
+                  <h4 className="text-[16px] font-bold text-black">Recent activity</h4>
 
                   {/* Search + Filter — split */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex-1 relative">
-                      <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#868686]" />
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="flex-1 relative" style={{ height: '40px' }}>
+                      <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#868686]" />
                       <input
                         type="text"
                         placeholder="Search Transactions"
-                        className="w-full bg-[#F5F5F5] rounded-full py-2 pl-8 pr-3 text-[12px] placeholder-[#868686] text-black focus:outline-none"
+                        style={{
+                          height: '40px',
+                          borderRadius: '50px',
+                          background: '#F0F0F0',
+                          paddingLeft: '34px',
+                          paddingRight: '12px',
+                          fontSize: '12px'
+                        }}
+                        className="w-full text-black placeholder-[#868686] focus:outline-none"
                       />
                     </div>
-                    <button className="w-[36px] h-[36px] bg-[#F5F5F5] rounded-full flex items-center justify-center flex-shrink-0 border border-[#EBEBEB]">
+                    {/* Filter */}
+                    <button 
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '44px',
+                        background: '#F0F0F0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      className="flex-shrink-0 active:scale-95 transition-transform border border-[#EBEBEB]"
+                    >
                       <SlidersHorizontal size={14} className="text-[#474747]" />
                     </button>
                   </div>
 
                   {/* Today label */}
-                  <p className="text-[11px] text-[#808180] font-medium mb-2">Today</p>
+                  <p className="text-[11px] text-[#808180] font-medium">Today</p>
 
                   {/* Transaction rows */}
-                  <div className="space-y-[14px]">
+                  <div className="flex-1 overflow-y-auto no-scrollbar space-y-[14px]">
                     {RECENT_TRANSACTIONS.map((tx) => (
                       <div key={tx.id} className="flex items-center justify-between">
                         {/* Left — avatar + name/date */}
                         <div className="flex items-center space-x-2.5">
-                          <div className="w-[40px] h-[40px] rounded-full bg-gradient-to-br from-neutral-300 to-neutral-400 flex items-center justify-center flex-shrink-0 relative">
+                          <div 
+                            style={{ width: '42px', height: '42px' }}
+                            className="rounded-full bg-gradient-to-br from-neutral-300 to-neutral-400 flex items-center justify-center flex-shrink-0 relative"
+                          >
                             <span className="text-[11px] font-bold text-white">{tx.name.split(' ').map(n => n[0]).join('')}</span>
-                            <div className="absolute -bottom-0.5 -right-0.5 w-[14px] h-[14px] bg-[#23BC29] rounded-full border border-white flex items-center justify-center">
-                              <ArrowUp size={7} className="text-white" />
+                            <div 
+                              style={{ 
+                                width: '20px', 
+                                height: '20px', 
+                                borderRadius: '55.56px', 
+                                padding: '5.56px', 
+                                gap: '5.56px',
+                                background: '#000'
+                              }}
+                              className="absolute -bottom-1 -right-1 flex items-center justify-center border border-white"
+                            >
+                              <ArrowUp size={8} className="text-white transform rotate-45" />
                             </div>
                           </div>
                           <div>
-                            <p className="text-[13px] font-semibold text-black leading-[17px]">{tx.name}</p>
+                            <p 
+                              style={{ 
+                                fontFamily: 'var(--font-geist)', 
+                                fontWeight: 600, 
+                                fontSize: '14px', 
+                                lineHeight: '24px',
+                                color: '#000' 
+                              }}
+                              className="leading-[17px]"
+                            >
+                              {tx.name}
+                            </p>
                             <div className="flex items-center gap-1.5 mt-0.5">
-                              <p className="text-[11px] text-[#808180]">{tx.date}</p>
+                              <p 
+                                style={{ 
+                                  fontFamily: 'var(--font-geist)', 
+                                  fontWeight: 400, 
+                                  fontSize: '12px', 
+                                  lineHeight: '100%', 
+                                  color: '#868686' 
+                                }}
+                              >
+                                {tx.date}
+                              </p>
                               {tx.status === 'Pending' && (
                                 <span className="text-[10px] font-medium text-[#E8605A] bg-[#FFE8E7] px-1.5 py-0.5 rounded-full">Pending</span>
                               )}
@@ -454,8 +577,24 @@ export default function App() {
                         </div>
                         {/* Right — amount + balance */}
                         <div className="text-right">
-                          <p className="text-[13px] font-bold text-black">+<span className="naira">₦</span>{tx.amount.toLocaleString()}.00</p>
-                          <p className="text-[11px] text-[#808180]"><span className="naira">₦</span>{tx.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                          <p 
+                            style={{ 
+                              fontSize: '16px', 
+                              fontWeight: 600, 
+                              color: '#000' 
+                            }}
+                          >
+                            +<span className="naira">₦</span>{tx.amount.toLocaleString()}.00
+                          </p>
+                          <p 
+                            style={{ 
+                              fontSize: '12px', 
+                              fontWeight: 400, 
+                              color: '#868686' 
+                            }}
+                          >
+                            <span className="naira">₦</span>{tx.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </p>
                         </div>
                       </div>
                     ))}
