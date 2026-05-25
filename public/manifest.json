@@ -1,0 +1,23 @@
+{
+  "name": "Spraye",
+  "short_name": "Spraye",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#1A3A1B",
+  "background_color": "#F0F0F0",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
