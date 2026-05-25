@@ -4,7 +4,7 @@ import {
   Bell, Eye, EyeOff, Search, SlidersHorizontal, QrCode, 
   Scan, ArrowLeft, ChevronRight, Check, X, Plus, 
   Gift, User, ArrowUp, RefreshCw, LogOut, Info,
-  ChevronDown, BarChart2, Filter
+  ChevronDown, BarChart2, ListFilter
 } from 'lucide-react';
 import nairaIllustration from './assets/naira_spray_illustration.png';
 
@@ -316,7 +316,7 @@ export default function App() {
                 </div>
                 {/* Bell with numeric badge */}
                 <div className="relative cursor-pointer active:scale-95 transition-transform">
-                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-[#E4E4E4]">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
                     <Bell size={18} className="text-black" />
                   </div>
                   <div className="absolute -top-1 -right-1 w-[18px] h-[18px] bg-[#C11A00] rounded-full border-2 border-[#F0F0F0] flex items-center justify-center">
@@ -341,7 +341,7 @@ export default function App() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       background: '#FFF',
-                      border: '1px solid #E4E4E4'
+                      border: 'none'
                     }}
                     className="active:scale-95 transition-transform"
                   >
@@ -356,9 +356,9 @@ export default function App() {
                   <p 
                     style={{
                       fontFamily: 'var(--font-geist)',
-                      fontWeight: 400,
-                      fontSize: '12px',
-                      lineHeight: '100%',
+                      fontWeight: 500,
+                      fontSize: '14px',
+                      lineHeight: '24px',
                       color: '#868686',
                       margin: 0,
                       padding: 0
@@ -391,16 +391,16 @@ export default function App() {
                     }}
                   >
                     {[
-                      { label: 'Top Up',  icon: <Plus size={25} className="text-[#1D8F21]" />,   action: () => triggerToast('Top-up: Bank Transfer or Card') },
-                      { label: 'My QR',   icon: <QrCode size={25} className="text-[#1D8F21]" />, action: () => triggerToast('My QR Code') },
-                      { label: 'Scan',    icon: <Scan size={25} className="text-[#1D8F21]" />,   action: () => navigateTo('spray_someone') },
+                      { label: 'Top Up',  icon: <Plus size={25} className="text-black" />,   action: () => triggerToast('Top-up: Bank Transfer or Card') },
+                      { label: 'My QR',   icon: <QrCode size={25} className="text-black" />, action: () => triggerToast('My QR Code') },
+                      { label: 'Scan',    icon: <Scan size={25} className="text-black" />,   action: () => navigateTo('spray_someone') },
                     ].map(({ label, icon, action }) => (
-                      <div key={label} className="flex-1 flex flex-col items-center gap-[5px] justify-center">
+                      <div key={label} className="flex-1 flex flex-col items-center gap-[10px] justify-center">
                         <button
                           onClick={action}
                           style={{ 
                             height: '50px', 
-                            width: '124.67px', 
+                            width: '100%', 
                             borderRadius: '100px',
                             padding: '15px 35px'
                           }}
@@ -473,8 +473,6 @@ export default function App() {
                           position: 'absolute', 
                           left: '107px', 
                           top: '-57px', 
-                          transform: 'scale(0.333)', 
-                          transformOrigin: 'top left',
                           zIndex: 0
                         }} 
                       />
@@ -508,7 +506,7 @@ export default function App() {
                             alignItems: 'center',
                             justifyContent: 'center'
                           }}
-                          className="text-black font-bold text-[12px] active:scale-95 transition-transform"
+                          className="text-white font-bold text-[12px] active:scale-95 transition-transform"
                         >
                           Spray Temi
                         </button>
@@ -519,7 +517,7 @@ export default function App() {
 
                 {/* ── Recent Activity card ── */}
                 <div 
-                  className="mx-[15px] bg-white border border-[#E4E4E4] flex flex-col"
+                  className="mx-[15px] bg-white flex flex-col"
                   style={{
                     height: '514px',
                     borderRadius: '20px',
@@ -533,7 +531,7 @@ export default function App() {
                   {/* Search + Filter — split */}
                   <div className="flex items-center gap-2 mb-1">
                     <div className="flex-1 relative" style={{ height: '40px' }}>
-                      <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#868686]" />
+                      <Search size={20} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#868686]" />
                       <input
                         type="text"
                         placeholder="Search Transactions"
@@ -564,12 +562,12 @@ export default function App() {
                       }}
                       className="flex-shrink-0 active:scale-95 transition-transform border border-[#EBEBEB]"
                     >
-                      <Filter size={14} className="text-black" />
+                      <ListFilter size={14} className="text-black" />
                     </button>
                   </div>
 
                   {/* Today label */}
-                  <p className="text-[11px] text-[#808180] font-medium">Today</p>
+                  <p className="text-[14px] text-[#868686] font-semibold pb-2">Today</p>
 
                   {/* Transaction rows */}
                   <div className="flex-1 overflow-y-auto no-scrollbar space-y-[14px]">
