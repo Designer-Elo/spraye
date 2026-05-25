@@ -4,7 +4,7 @@ import {
   Bell, Eye, EyeOff, Search, SlidersHorizontal, QrCode, 
   Scan, ArrowLeft, ChevronRight, Check, X, Plus, 
   Gift, User, ArrowUp, RefreshCw, LogOut, Info,
-  ChevronDown, BarChart2
+  ChevronDown, BarChart2, Filter
 } from 'lucide-react';
 import nairaIllustration from './assets/naira_spray_illustration.png';
 
@@ -316,7 +316,7 @@ export default function App() {
                 </div>
                 {/* Bell with numeric badge */}
                 <div className="relative cursor-pointer active:scale-95 transition-transform">
-                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-[#E4E4E4] shadow-sm">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-[#E4E4E4]">
                     <Bell size={18} className="text-black" />
                   </div>
                   <div className="absolute -top-1 -right-1 w-[18px] h-[18px] bg-[#C11A00] rounded-full border-2 border-[#F0F0F0] flex items-center justify-center">
@@ -343,7 +343,7 @@ export default function App() {
                       background: '#FFF',
                       border: '1px solid #E4E4E4'
                     }}
-                    className="shadow-sm active:scale-95 transition-transform"
+                    className="active:scale-95 transition-transform"
                   >
                     <span className="text-[15px]">🇳🇬</span>
                     <span className="text-[13px] font-semibold text-black">NGN</span>
@@ -391,11 +391,11 @@ export default function App() {
                     }}
                   >
                     {[
-                      { label: 'Top Up',  icon: <Plus size={22} className="text-[#1D8F21]" />,   action: () => triggerToast('Top-up: Bank Transfer or Card') },
-                      { label: 'My QR',   icon: <QrCode size={20} className="text-[#1D8F21]" />, action: () => triggerToast('My QR Code') },
-                      { label: 'Scan',    icon: <Scan size={20} className="text-[#1D8F21]" />,   action: () => navigateTo('spray_someone') },
+                      { label: 'Top Up',  icon: <Plus size={25} className="text-[#1D8F21]" />,   action: () => triggerToast('Top-up: Bank Transfer or Card') },
+                      { label: 'My QR',   icon: <QrCode size={25} className="text-[#1D8F21]" />, action: () => triggerToast('My QR Code') },
+                      { label: 'Scan',    icon: <Scan size={25} className="text-[#1D8F21]" />,   action: () => navigateTo('spray_someone') },
                     ].map(({ label, icon, action }) => (
-                      <div key={label} className="flex-1 flex flex-col items-center gap-[4px] justify-center">
+                      <div key={label} className="flex-1 flex flex-col items-center gap-[5px] justify-center">
                         <button
                           onClick={action}
                           style={{ 
@@ -404,7 +404,7 @@ export default function App() {
                             borderRadius: '100px',
                             padding: '15px 35px'
                           }}
-                          className="bg-white flex items-center justify-center active:scale-95 transition-all shadow-sm flex-shrink-0"
+                          className="bg-white flex items-center justify-center active:scale-95 transition-all flex-shrink-0"
                         >
                           {icon}
                         </button>
@@ -426,13 +426,13 @@ export default function App() {
                 </div>
 
                 {/* ── Banner — 3 stacked rectangles (111px height, 30px rounded) ── */}
-                <div className="px-[15px] pb-[35px]">
+                <div className="px-[15px] pb-[18px]">
                   <div className="relative" style={{ height: '119px' }}>
                     {/* Back rect (10% opacity) */}
                     <div 
                       style={{ 
                         position: 'absolute', 
-                        bottom: '0px', 
+                        bottom: '-2px', 
                         left: '16px', 
                         right: '16px', 
                         height: '111px', 
@@ -446,7 +446,7 @@ export default function App() {
                     <div 
                       style={{ 
                         position: 'absolute', 
-                        bottom: '4px', 
+                        bottom: '2px', 
                         left: '8px', 
                         right: '8px', 
                         height: '111px', 
@@ -465,22 +465,50 @@ export default function App() {
                         zIndex: 3 
                       }}
                     >
-                      {/* Illustration placeholder right side */}
-                      <div className="absolute right-0 top-0 bottom-0 w-[42%] flex items-center justify-center bg-[#2D5A2D]">
-                        <div className="text-center opacity-30">
-                          <div className="w-14 h-8 bg-[#23BC29] rounded mx-auto mb-1" />
-                          <div className="text-white text-[9px]">[ illustration ]</div>
-                        </div>
-                      </div>
+                      {/* Illustration image right side */}
+                      <img 
+                        src="/money-illustration-banner.png" 
+                        alt="illustration" 
+                        style={{ 
+                          position: 'absolute', 
+                          left: '107px', 
+                          top: '-57px', 
+                          transform: 'scale(0.333)', 
+                          transformOrigin: 'top left',
+                          zIndex: 0
+                        }} 
+                      />
+                      {/* Gradient Overlay */}
+                      <div 
+                        className="absolute left-0 top-0 bottom-0 z-10" 
+                        style={{ 
+                          width: '235px', 
+                          height: '111px', 
+                          background: 'linear-gradient(283.05deg, rgba(18, 41, 19, 0) 10.96%, #122913 46.32%)' 
+                        }} 
+                      />
+                      
                       {/* Left content */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[58%] p-4 flex flex-col justify-between">
+                      <div className="absolute left-0 top-0 bottom-0 w-[58%] p-4 flex flex-col justify-between z-20">
                         <div>
                           <h3 className="text-[18px] font-bold text-white leading-tight">{RECIPIENT.name}</h3>
                           <p className="text-[11px] text-[#BDEBBF] mt-0.5">Upcoming Birthday event</p>
                         </div>
                         <button
                           onClick={() => navigateTo('spray_someone')}
-                          className="bg-[#23BC29] text-black font-bold text-[12px] py-[6px] px-4 rounded-full self-start active:scale-95 transition-transform"
+                          style={{
+                            width: '121px',
+                            height: '28px',
+                            borderRadius: '10px',
+                            padding: '2px 10px',
+                            background: '#23BC29',
+                            boxShadow: '0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset',
+                            gap: '10px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                          className="text-black font-bold text-[12px] active:scale-95 transition-transform"
                         >
                           Spray Temi
                         </button>
@@ -491,7 +519,7 @@ export default function App() {
 
                 {/* ── Recent Activity card ── */}
                 <div 
-                  className="mx-[15px] bg-white border border-[#E4E4E4] shadow-sm flex flex-col"
+                  className="mx-[15px] bg-white border border-[#E4E4E4] flex flex-col"
                   style={{
                     height: '514px',
                     borderRadius: '20px',
@@ -536,7 +564,7 @@ export default function App() {
                       }}
                       className="flex-shrink-0 active:scale-95 transition-transform border border-[#EBEBEB]"
                     >
-                      <SlidersHorizontal size={14} className="text-[#474747]" />
+                      <Filter size={14} className="text-black" />
                     </button>
                   </div>
 
